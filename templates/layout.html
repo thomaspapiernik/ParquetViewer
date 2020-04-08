@@ -6,13 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <title>VCFactory | Simple Flask Application</title>
+        <title>parquetviewer</title>
 
          <!-- Bootstrap CSS CDN -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <!-- Our Custom CSS -->
-        <link rel="stylesheet" href="https://bootstrapious.com/tutorial/sidebar/style.css">
+	<link rel="stylesheet" href="https://bootstrapious.com/tutorial/sidebar/style.css">
         <style>
+            div.export {
+		    padding: 10px;
+	    }
+            span.export.text {
+		    padding-left: 5px;
+	    }
 
             table.dataframe, .dataframe th, .dataframe td {
               border: none;
@@ -65,17 +71,24 @@
             <!-- Sidebar Holder -->
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <h3><a href="\">Flasky</a></h3>
+                    <h3><a href="\">Parquet viewer</a></h3>
                 </div>
 
                 <ul class="list-unstyled components">
-                    <p>Record Types</p>
-
+			<li>
+			<a href="{{ current_root }}">..</a>
+			</li>
+		  {% if files: %} 
                      {% for name in files: %}
                         <li>
+                        {% if name in dirs: %}
+                        <a href="{{ name }}/">{{ name }}</a>
+			{% else: %}
                         <a href="{{ name }}">{{ name }}</a>
+			{% endif %}
                         </li>
                     {% endfor %}
+		  {% endif %}
                 </ul>
 
             </nav>
@@ -100,7 +113,9 @@
                         </div>
                     </div>
                 </nav>
-
+	<div style='display: none;' id='breadcrum'>
+		<span class='breadcrum'>root > <a href="{{ current_root }}">{{ current_root }}</a> </span>
+	</div>
          {% block body %}{% endblock %}
 
 
